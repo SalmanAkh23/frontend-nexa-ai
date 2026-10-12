@@ -1,5 +1,5 @@
 import {
-  Bot,
+  Sparkles,
   ChevronLeft,
   MessageSquare,
   Plus,
@@ -26,11 +26,11 @@ function Sidebar({
   return (
     <aside className={`sidebar${isOpen ? ' is-open' : ''}`} aria-label="Main navigation">
       <div className="sidebar-top">
-        <a className="brand" href="/" aria-label="Nexa AI home">
+        <a className="brand" href="/" aria-label="Nexa AI Beranda">
           <span className="brand-mark" aria-hidden="true">
-            <Bot size={19} strokeWidth={2.1} />
+            <Sparkles size={18} strokeWidth={2.2} />
           </span>
-          <span className="brand-name">nexa<span>ai</span></span>
+          <span className="brand-name">Nexa AI</span>
         </a>
         <button
           className="icon-button sidebar-close"

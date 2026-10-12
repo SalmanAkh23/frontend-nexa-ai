@@ -7,7 +7,7 @@ function ChatHeader({ onMenuClick, onSettingsClick }) {
         <button
           className="icon-button menu-toggle"
           type="button"
-          aria-label="Toggle sidebar"
+          aria-label="Buka/tutup sidebar"
           onClick={onMenuClick}
         >
           <Menu className="menu-icon" size={19} />
@@ -18,13 +18,13 @@ function ChatHeader({ onMenuClick, onSettingsClick }) {
         </span>
         <div className="header-title">
           <strong>Nexa AI</strong>
-          <span><i aria-hidden="true" /> AI Assistant</span>
+          <span><i aria-hidden="true" /> Asisten Pintar</span>
         </div>
       </div>
       <button
         className="icon-button header-more"
         type="button"
-        aria-label="Open settings"
+        aria-label="Pengaturan"
         onClick={onSettingsClick}
       >
         <MoreHorizontal size={21} />

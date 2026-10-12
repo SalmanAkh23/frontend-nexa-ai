@@ -1,41 +1,51 @@
 import { Sparkles } from 'lucide-react'
 import SuggestionCard from './SuggestionCard.jsx'
 
+function getGreeting() {
+  const hour = new Date().getHours()
+  if (hour < 11) return 'Selamat pagi'
+  if (hour < 15) return 'Selamat siang'
+  if (hour < 18) return 'Selamat sore'
+  return 'Selamat malam'
+}
+
 const suggestions = [
   {
-    title: 'Explain something',
-    description: 'Make a complex topic feel simple',
+    title: 'Jelaskan konsep',
+    description: 'Sederhanakan topik teknis atau rumit agar mudah dipahami',
     icon: 'lightbulb',
   },
   {
-    title: 'Write something',
-    description: 'Find the right words for any moment',
+    title: 'Bantu menulis',
+    description: 'Tulis atau rapikan email, artikel, dan dokumen kerja',
     icon: 'pen',
   },
   {
-    title: 'Help me code',
-    description: 'Build, debug, and understand code',
+    title: 'Bantu coding & debug',
+    description: 'Tinjau baris kode, temukan bug, atau rancang arsitektur',
     icon: 'code',
   },
   {
-    title: 'Brainstorm ideas',
-    description: 'Explore new angles and possibilities',
+    title: 'Eksplorasi ide',
+    description: 'Diskusikan solusi kreatif dan sudut pandang baru',
     icon: 'sparkles',
   },
 ]
 
 function EmptyState({ onSuggestionSelect }) {
+  const greeting = getGreeting()
+
   return (
     <div className="empty-state">
       <div className="welcome-mark" aria-hidden="true">
-        <Sparkles size={25} strokeWidth={1.8} />
+        <Sparkles size={24} strokeWidth={2} />
       </div>
-      <p className="welcome-eyebrow">A LITTLE MORE CLARITY, EVERY DAY</p>
-      <h1>Nexa AI</h1>
+      <p className="welcome-eyebrow">{greeting}</p>
+      <h1>Ada yang bisa saya bantu hari ini?</h1>
       <p className="welcome-description">
-        Your intelligent assistant for everyday tasks.
+        Tanyakan apa saja, diskusikan ide, atau unggah dokumen untuk dianalisis.
       </p>
-      <div className="suggestion-grid" aria-label="Try asking Nexa AI">
+      <div className="suggestion-grid" aria-label="Saran pertanyaan">
         {suggestions.map((suggestion) => (
           <SuggestionCard
             key={suggestion.title}

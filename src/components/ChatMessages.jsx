@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import MessageBubble from './MessageBubble.jsx'
 
-function ChatMessages({ messages }) {
+function ChatMessages({ messages, onRegenerate }) {
   const endOfMessagesRef = useRef(null)
 
   useEffect(() => {
@@ -12,7 +12,11 @@ function ChatMessages({ messages }) {
     <div className="messages-scroll-area">
       <div className="message-list" aria-live="polite">
         {messages.map((message) => (
-          <MessageBubble key={message.id} message={message} />
+          <MessageBubble
+            key={message.id}
+            message={message}
+            onRegenerate={onRegenerate}
+          />
         ))}
         <div ref={endOfMessagesRef} />
       </div>

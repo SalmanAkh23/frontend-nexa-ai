@@ -73,7 +73,7 @@ function ChatInput({ onSend, enterToSend, disabled }) {
           <button
             className="attach-button"
             type="button"
-            aria-label="Attach a file"
+            aria-label="Lampirkan file"
             disabled={disabled}
             onClick={() => fileInputRef.current?.click()}
           >
@@ -83,7 +83,7 @@ function ChatInput({ onSend, enterToSend, disabled }) {
             ref={fileInputRef}
             className="visually-hidden"
             type="file"
-            aria-label="Choose a file to attach"
+            aria-label="Pilih file untuk dilampirkan"
             accept=".txt,.md,.csv,.json,text/plain,text/markdown,text/csv,application/json"
             onChange={async (event) => {
               const selectedFile = event.target.files?.[0]
@@ -116,8 +116,8 @@ function ChatInput({ onSend, enterToSend, disabled }) {
             ref={textareaRef}
             value={value}
             rows={1}
-            aria-label="Message Nexa AI"
-            placeholder="Message Nexa AI..."
+            aria-label="Kirim pesan ke Nexa AI"
+            placeholder="Tanyakan apa saja kepada Nexa AI..."
             onChange={(event) => setValue(event.target.value)}
             onKeyDown={handleKeyDown}
             disabled={disabled}
@@ -126,14 +126,14 @@ function ChatInput({ onSend, enterToSend, disabled }) {
           <button
             className="send-button"
             type="submit"
-            aria-label="Send message"
+            aria-label="Kirim pesan"
             disabled={!canSend || disabled}
           >
             <ArrowUp size={19} strokeWidth={2.3} />
           </button>
         </div>
       </form>
-      <p className="composer-note">Nexa AI can make mistakes. Check important info.</p>
+      <p className="composer-note">Nexa AI dapat membuat kesalahan. Harap verifikasi informasi penting.</p>
     </div>
   )
 }

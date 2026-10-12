@@ -388,6 +388,82 @@ function App() {
     }
   }
 
+  async function handleRegenerate(assistantMessageId) {
+    if (!currentConversation || !token) return
+    const conversationId = currentConversation.id
+    const msgs = currentConversation.messages
+    const targetIndex = msgs.findIndex((item) => item.id === assistantMessageId)
+    if (targetIndex === -1) return
+
+    let precedingUserIndex = -1
+    for (let i = targetIndex - 1; i >= 0; i--) {
+      if (msgs[i].role === 'user') {
+        precedingUserIndex = i
+        break
+      }
+    }
+    if (precedingUserIndex === -1) return
+
+    const requestMessages = msgs
+      .slice(0, precedingUserIndex + 1)
+      .filter((m) => m.status !== 'loading' && m.status !== 'error')
+      .map(({ role, content }) => ({ role, content }))
+
+    const responseMessageId = assistantMessageId
+    const updatedConversation = {
+      ...currentConversation,
+      messages: msgs.map((item) =>
+        item.id === responseMessageId
+          ? { ...item, content: '', status: 'loading' }
+          : item,
+      ),
+    }
+
+    setConversations((previous) =>
+      previous.map((conversation) =>
+        conversation.id === conversationId ? updatedConversation : conversation,
+      ),
+    )
+    setAppError('')
+
+    try {
+      const { message } = await sendChat(requestMessages, token)
+      const completedConversation = {
+        ...updatedConversation,
+        messages: updatedConversation.messages.map((item) =>
+          item.id === responseMessageId
+            ? { ...item, content: message, status: 'complete' }
+            : item,
+        ),
+      }
+      setConversations((previous) =>
+        previous.map((conversation) =>
+          conversation.id === conversationId ? completedConversation : conversation,
+        ),
+      )
+      await persistConversation(completedConversation)
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : 'Maaf, terjadi kesalahan saat menghubungi AI.'
+      const failedConversation = {
+        ...updatedConversation,
+        messages: updatedConversation.messages.map((item) =>
+          item.id === responseMessageId
+            ? { ...item, content: errorMessage, status: 'error' }
+            : item,
+        ),
+      }
+      setConversations((previous) =>
+        previous.map((conversation) =>
+          conversation.id === conversationId ? failedConversation : conversation,
+        ),
+      )
+      await persistConversation(failedConversation)
+    }
+  }
+
   async function handleDeleteConversation(conversationId) {
     const conversation = conversations.find((item) => item.id === conversationId)
     if (!conversation) return
@@ -503,7 +579,10 @@ function App() {
         )}
         <section className="chat-panel" aria-label="Conversation">
           {currentConversation?.messages.length ? (
-            <ChatMessages messages={currentConversation.messages} />
+            <ChatMessages
+              messages={currentConversation.messages}
+              onRegenerate={handleRegenerate}
+            />
           ) : (
             <EmptyState onSuggestionSelect={(text) => handleSendMessage({ text })} />
           )}
